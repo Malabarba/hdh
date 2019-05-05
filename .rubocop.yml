@@ -1,0 +1,113 @@
+AllCops:
+  TargetRubyVersion: 2.6
+  Exclude:
+    - 'bin/**/*'
+    - 'config/**/*'
+    - 'db/**/*'
+    - 'doc/**/*'
+    - 'log/**/*'
+    - 'script/**/*'
+    - 'spec/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+    - !ruby/regexp /old_and_unused\.rb$/
+    - Guardfile
+
+require:
+  - rubocop-rspec
+
+Documentation:
+  Enabled: false
+
+Layout/ClassStructure:
+  Enabled: true
+
+Layout/FirstMethodParameterLineBreak:
+  Enabled: true
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Max: 10
+  Enabled: true
+
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+    - 'spec/**/*.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'app/admin/**/*'
+    - 'spec/**/*.rb'
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 50
+
+Performance/CaseWhenSplat:
+  Enabled: true
+
+Rails:
+  Enabled: false
+
+Style/AutoResourceCleanup:
+  Enabled: true
+
+Style/CollectionMethods:
+  Enabled: true
+
+Style/GuardClause:
+  Enabled: false
+
+Style/Lambda:
+  Enabled: false
+
+Style/MethodCallWithArgsParentheses:
+  Enabled: true
+  IgnoredMethods:
+    - require
+    - redirect_to
+    - raise
+  Include:
+    - "app/**/*.rb"
+  Exclude:
+    - "app/admin/**/*.rb"
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/RescueModifier:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
+
+Naming/PredicateName:
+  Enabled: false
+
+Naming/UncommunicativeMethodParamName:
+  Enabled: false
+
+Style/AndOr:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/SpecialGlobalVars:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: true
+
+Style/EachWithObject:
+  Enabled: false
+
+Rails/SkipsModelValidations:
+  Exclude:
+    - 'spec/**/*.rb'
