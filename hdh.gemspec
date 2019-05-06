@@ -1,4 +1,4 @@
-require File.expand_path("lib/hdh/version", __DIR__)
+require File.expand_path("lib/hdh/version", __dir__)
 
 Gem::Specification.new do |s|
   s.name        = 'hdh'
