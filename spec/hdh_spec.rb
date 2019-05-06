@@ -2,8 +2,10 @@ require 'pry'
 require 'hdh'
 
 def exp(h, s)
-  it { expect(Hdh.render(h)).to eq(s) }
-  it { expect(Hdh::Base.new.render(h)).to eq(s) }
+  it do
+    expect(Hdh.render(h)).to eq(s)
+    expect(Hdh::Base.new.render(h)).to eq(s)
+  end
 end
 
 describe Hdh do
@@ -25,7 +27,7 @@ describe Hdh do
       exp(['p.hi', "foo"], '<p class="hi">foo</p>')
       exp(['p#hi', "foo"], '<p id="hi">foo</p>')
       exp(['p.hi.greet.left', "foo"], '<p class="hi greet left">foo</p>')
-      exp(['p.greet.left#hi', "foo"], '<p id="hi" class="greet left">foo</p>')
+      exp(['p#hi.greet.left', "foo"], '<p id="hi" class="greet left">foo</p>')
     end
 
     context 'different shaped trees' do

@@ -25,13 +25,14 @@ module Hdh::Helpers
     end
   end
 
-  def parse_shorthands(t, attrs)
+  def parse_shorthands(tag_name, attrs)
     attrs = attrs&.dup || {}
-    _, tcl, id = /([^#]+)(?:#([^#]+))?/.match(t)&.to_a
-    raise ArgumentError, "Invalid HTML tag: #{t}" unless tcl
+    tid, *cl = tag_name.to_s.split('.')
+    t, id, *other_ids = tid.split('#')
+    raise ArgumentError, "Invalid HTML tag: #{tag_name}" unless t
+    raise ArgumentError, "Invalid HTML tag with multiple ids: #{tag_name}" if other_ids.any?
 
     attrs[:id] = id if id
-    t, *cl = tcl.split('.')
     attrs[:class] = Array(attrs[:class]) + cl if cl.any?
     [t || :div, attrs]
   end
