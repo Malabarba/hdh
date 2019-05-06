@@ -1,0 +1,13 @@
+* Html is Data is Html [[https://circleci.com/gh/Malabarba/hdh][https://circleci.com/gh/Malabarba/hdh.svg?style=svg]]
+
+*Hdh* is a Ruby gem that renders HTML from plain Ruby data structures.
+
+If you’re familiar with [[https://github.com/weavejester/hiccup][Hiccup]], it’s basically that for Ruby.
+
+#+BEGIN_SRC ruby
+Hdh.render([:article,
+            [:h1, 'Html is Data is Html'],
+            [:p, "Isn't this better than html templates?" ]])
+
+=> "<article><h1>Html is Data is Html</h1><p>Isn't this better than html templates?</p></article>"
+#+END_SRC
