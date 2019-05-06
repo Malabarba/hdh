@@ -14,6 +14,8 @@ module Hdh::Helpers
   def render_tag(h)
     t, *cs = h
     attrs, *cs = cs if cs.first.is_a?(Hash)
+    t, attrs = parse_shorthands(t, attrs)
+
     opening = "#{t}#{render_tag_attributes(attrs)}"
     if VOID_ELEMENTS.include?(t.to_sym) ||
        (cs.empty? && t =~ /^[A-Z]/)
@@ -21,6 +23,17 @@ module Hdh::Helpers
     else
       "<#{opening}>#{cs.map(&r).join}</#{t}>"
     end
+  end
+
+  def parse_shorthands(t, attrs)
+    attrs = attrs&.dup || {}
+    _, tcl, id = /([^#]+)(?:#([^#]+))?/.match(t)&.to_a
+    raise ArgumentError, "Invalid HTML tag: #{t}" unless tcl
+
+    attrs[:id] = id if id
+    t, *cl = tcl.split('.')
+    attrs[:class] = Array(attrs[:class]) + cl if cl.any?
+    [t || :div, attrs]
   end
 
   def render_tag_attributes(attrs, prefix: '')
