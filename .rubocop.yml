@@ -13,9 +13,6 @@ AllCops:
     - !ruby/regexp /old_and_unused\.rb$/
     - Guardfile
 
-require:
-  - rubocop-rspec
-
 Documentation:
   Enabled: false
 

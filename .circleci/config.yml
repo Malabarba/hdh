@@ -1,0 +1,66 @@
+# https://circleci.com/docs/2.0/language-ruby/
+
+version: 2.1
+commands:
+  checkout_and_bundle_install:
+    description: "Checkout the code and bundle install"
+    steps:
+      - checkout
+      - run:
+          name: Bundler version
+          command: bundle -v
+
+      # Restore bundle cache
+      # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+      - restore_cache:
+          keys:
+            - bundle-v2-{{ checksum "Gemfile.lock" }}
+            - bundle-v2-
+
+      - run: # Install Ruby dependencies
+          name: Bundle Install
+          command: bundle check || bundle install
+
+      # Store bundle cache for Ruby dependencies
+      - save_cache:
+          key: bundle-v2-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+jobs:
+  rspec:
+    docker:
+      - image: circleci/ruby:2.6.1-stretch-node
+        environment:
+          BUNDLE_PATH: vendor/bundle
+
+    steps:
+      - checkout_and_bundle_install
+      - run:
+          name: Run rspec in parallel
+          command: |
+            bundle exec rspec --profile 10 \
+                              --format RspecJunitFormatter \
+                              --out test_results/rspec.xml \
+                              --format progress \
+                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      - store_test_results:
+          path: test_results
+
+  rubocop:
+    docker:
+      - image: circleci/ruby:2.6.1-stretch-node
+        environment:
+          BUNDLE_PATH: vendor/bundle
+    steps:
+      - checkout_and_bundle_install
+      - run:
+          name: Run rubocop
+          command: bundle exec rubocop
+
+workflows:
+  version: 2
+  build-test-rubocop:
+    jobs:
+      - rspec
+      - rubocop

@@ -6,6 +6,8 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'pry-doc'
   gem 'rspec'
+  gem 'rspec_junit_formatter'
+  gem 'rubocop', require: false
 end
 
 ruby '2.6.1'
