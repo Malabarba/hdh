@@ -45,7 +45,7 @@ GEM
       unicode-display_width (>= 1.4.0, < 1.6)
     ruby-progressbar (1.10.0)
     unicode-display_width (1.5.0)
-    yard (0.9.19)
+    yard (0.9.20)
 
 PLATFORMS
   ruby
